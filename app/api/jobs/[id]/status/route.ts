@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-
-const STEPS = [
-  "extract",
-  "knowledge_base",
-  "professor_dna",
-  "exam_targets",
-  "predicted_exam",
-] as const;
+import { STEP_ORDER } from "@/lib/pipeline/context";
 
 export async function GET(
   _request: NextRequest,
@@ -41,7 +34,7 @@ export async function GET(
     return NextResponse.json({
       status: job.status,
       current_step: job.current_step,
-      steps: STEPS,
+      steps: STEP_ORDER,
       error_message: job.error_message,
     });
   } catch {

@@ -1,5 +1,5 @@
 /**
- * OpenRouter API wrapper — server-side only.
+ * OpenRouter API wrapper â€” server-side only.
  * Reads OPENROUTER_API_KEY and OPENROUTER_MODEL from environment.
  */
 
@@ -60,4 +60,4 @@ export async function callLLM(
   };
 
   return data.choices[0]?.message?.content ?? "";
-}
+}
