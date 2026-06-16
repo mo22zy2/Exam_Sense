@@ -1,4 +1,4 @@
-﻿-- Migration: 00003_pipeline.sql
+-- Migration: 00003_pipeline.sql
 -- Creates jobs, job_documents, job_outputs tables with RLS
 
 -- 1. jobs table
@@ -16,11 +16,11 @@ CREATE INDEX IF NOT EXISTS idx_jobs_user_id_status ON jobs (user_id, status);
 
 ALTER TABLE jobs ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Users can view own jobs"
+CREATE POLICY IF NOT EXISTS "Users can view own jobs"
   ON jobs FOR SELECT
   USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can insert own jobs"
+CREATE POLICY IF NOT EXISTS "Users can insert own jobs"
   ON jobs FOR INSERT
   WITH CHECK (auth.uid() = user_id);
 
@@ -33,11 +33,11 @@ CREATE TABLE IF NOT EXISTS job_documents (
 
 ALTER TABLE job_documents ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Users can view own job_documents"
+CREATE POLICY IF NOT EXISTS "Users can view own job_documents"
   ON job_documents FOR SELECT
   USING (job_id IN (SELECT id FROM jobs WHERE user_id = auth.uid()));
 
-CREATE POLICY "Users can insert own job_documents"
+CREATE POLICY IF NOT EXISTS "Users can insert own job_documents"
   ON job_documents FOR INSERT
   WITH CHECK (job_id IN (SELECT id FROM jobs WHERE user_id = auth.uid()));
 
@@ -55,10 +55,10 @@ CREATE TABLE IF NOT EXISTS job_outputs (
 
 ALTER TABLE job_outputs ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Users can view own job_outputs"
+CREATE POLICY IF NOT EXISTS "Users can view own job_outputs"
   ON job_outputs FOR SELECT
   USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can insert own job_outputs"
+CREATE POLICY IF NOT EXISTS "Users can insert own job_outputs"
   ON job_outputs FOR INSERT
   WITH CHECK (auth.uid() = user_id);
