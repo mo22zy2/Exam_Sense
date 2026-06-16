@@ -6,7 +6,8 @@ values ('outputs', 'outputs', false)
 on conflict (id) do nothing;
 
 -- RLS: users can read own outputs
-create policy if not exists "Users can read own outputs"
+drop policy if exists "Users can read own outputs" on storage.objects;
+create policy "Users can read own outputs"
   on storage.objects for select
   using (
     auth.role() = 'authenticated'
@@ -14,7 +15,8 @@ create policy if not exists "Users can read own outputs"
   );
 
 -- RLS: users can insert own outputs
-create policy if not exists "Users can insert own outputs"
+drop policy if exists "Users can insert own outputs" on storage.objects;
+create policy "Users can insert own outputs"
   on storage.objects for insert
   with check (
     auth.role() = 'authenticated'
@@ -22,7 +24,8 @@ create policy if not exists "Users can insert own outputs"
   );
 
 -- RLS: users can update own outputs
-create policy if not exists "Users can update own outputs"
+drop policy if exists "Users can update own outputs" on storage.objects;
+create policy "Users can update own outputs"
   on storage.objects for update
   using (
     auth.role() = 'authenticated'
@@ -30,7 +33,8 @@ create policy if not exists "Users can update own outputs"
   );
 
 -- RLS: users can delete own outputs
-create policy if not exists "Users can delete own outputs"
+drop policy if exists "Users can delete own outputs" on storage.objects;
+create policy "Users can delete own outputs"
   on storage.objects for delete
   using (
     auth.role() = 'authenticated'
